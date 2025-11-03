@@ -139,6 +139,7 @@ export async function GET(req: Request) {
 
       // Format columns
       sheet.columns.forEach((col) => {
+        if (!col?.eachCell) return;
         let maxLen = 0;
         col.eachCell({ includeEmpty: true }, (cell) => {
           const val = cell.value ? cell.value.toString() : "";

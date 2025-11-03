@@ -3,14 +3,11 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// DELETE Employee
-export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(req: Request, context: any) {
   try {
-    const { id } = params;
+    const id = context?.params?.id;
     await prisma.user.delete({ where: { id: Number(id) } });
+
     return NextResponse.json({ message: "Employee deleted successfully" });
   } catch (err: any) {
     console.error("Error deleting employee:", err);
@@ -21,13 +18,9 @@ export async function DELETE(
   }
 }
 
-// UPDATE Employee
-export async function PUT(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(req: Request, context: any) {
   try {
-    const { id } = params;
+    const id = context?.params?.id;
     const body = await req.json();
 
     const updated = await prisma.user.update({

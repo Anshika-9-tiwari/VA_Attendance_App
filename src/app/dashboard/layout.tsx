@@ -30,7 +30,7 @@ const menuItems = [
   { text: 'Work Reports', href: '/dashboard/workreports', icon: <Layers /> },
 ];
 
-export default function DashboardLayout({ children }) {
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 

@@ -3,18 +3,16 @@ import { PrismaClient, AttendanceStatus } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// Calculate work hours (and total numeric hours)
+// Calculate Work Hours
+// =====================================
 function calculateWorkHours(checkIn: string | null, checkOut: string | null) {
-  // If either time is missing, return a nullable formatted string and zero hours
-  if (!checkIn || !checkOut) {
-    return { formatted: null, hours: 0 };
-  }
+  if (!checkIn || !checkOut) return { formatted: null, hours: 0 };
 
   const [inHour, inMinute] = checkIn.split(":").map(Number);
   const [outHour, outMinute] = checkOut.split(":").map(Number);
 
   let totalMinutes = outHour * 60 + outMinute - (inHour * 60 + inMinute);
-  if (totalMinutes < 0) totalMinutes += 24 * 60; 
+  if (totalMinutes < 0) totalMinutes += 24 * 60; // handle overnight shifts
 
   const hours = Math.floor(totalMinutes / 60);
   const minutes = totalMinutes % 60;
@@ -22,14 +20,16 @@ function calculateWorkHours(checkIn: string | null, checkOut: string | null) {
   return { formatted: `${hours}hr ${minutes}m`, hours };
 }
 
-// Determine status from hours worked
+// Determine Attendance Status
+// =====================================
 function determineStatus(hoursWorked: number): AttendanceStatus {
   if (hoursWorked >= 8) return "PRESENT";
   if (hoursWorked >= 4) return "HALF_DAY";
   return "ABSENT";
 }
 
-// Helper to format time safely
+// Utility: Format Time
+// =====================================
 function formatTime(date: Date | null) {
   if (!date) return null;
   const hours = date.getHours().toString().padStart(2, "0");
@@ -37,12 +37,18 @@ function formatTime(date: Date | null) {
   return `${hours}:${minutes}`;
 }
 
-// POST: Update or Create Attendance
-export async function POST(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+// POST  Update Attendance
+// =====================================
+export async function POST(req: Request, context: any) {
   try {
+    const attendanceId = parseInt(context?.params?.id);
+    if (!attendanceId) {
+      return NextResponse.json(
+        { success: false, message: "Attendance ID is required" },
+        { status: 400 }
+      );
+    }
+
     const { userName, date, checkin, checkout, location, siteName } =
       await req.json();
 
@@ -61,8 +67,6 @@ export async function POST(
       );
     }
 
-    // Find existing attendance
-    const attendanceId = parseInt(params.id);
     const existingAttendance = await prisma.attendance.findUnique({
       where: { id: attendanceId },
     });
@@ -74,29 +78,27 @@ export async function POST(
       );
     }
 
-    // Prepare updated data
-    let checkInTime: Date | null = checkin
+    // Prepare time fields
+    const checkInTime = checkin
       ? new Date(`${date}T${checkin}:00`)
       : existingAttendance.checkInTime;
-    let checkOutTime: Date | null = checkout
+    const checkOutTime = checkout
       ? new Date(`${date}T${checkout}:00`)
       : existingAttendance.checkOutTime;
 
-    let workHr: string | null = existingAttendance.workHr;
-    let status: AttendanceStatus = existingAttendance.status;
+    // Calculate hours & status
+    let { formatted: workHr, hours } = calculateWorkHours(
+      formatTime(checkInTime),
+      formatTime(checkOutTime)
+    );
 
-    // Recalculate work hours & status
-    if (checkInTime && checkOutTime) {
-      const inStr = formatTime(checkInTime);
-      const outStr = formatTime(checkOutTime);
-      const { formatted, hours } = calculateWorkHours(inStr, outStr);
-      workHr = formatted;
-      status = determineStatus(hours);
-    } else if (checkInTime && !checkOutTime) {
-      status = "PRESENT"; 
-    }
+    let status: AttendanceStatus = checkInTime && checkOutTime
+      ? determineStatus(hours)
+      : checkInTime
+      ? "PRESENT"
+      : existingAttendance.status;
 
-    // Update record
+    // Update attendance record
     const updated = await prisma.attendance.update({
       where: { id: attendanceId },
       data: {
@@ -111,37 +113,47 @@ export async function POST(
 
     return NextResponse.json({
       success: true,
+      message: "Attendance updated successfully",
       data: {
         ...updated,
         checkInTime: formatTime(updated.checkInTime),
         checkOutTime: formatTime(updated.checkOutTime),
       },
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error updating attendance:", error);
     return NextResponse.json(
-      { success: false, message: "Error updating attendance" },
+      { success: false, message: "Error updating attendance", error: error.message },
       { status: 500 }
     );
   }
 }
 
-//  DELETE Attendance
-export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+// DELETE → Remove Attendance
+// =====================================
+export async function DELETE(req: Request, context: any) {
   try {
-    const attendanceId = parseInt(params.id);
+    const attendanceId = parseInt(context?.params?.id);
+    if (!attendanceId) {
+      return NextResponse.json(
+        { success: false, message: "Attendance ID is required" },
+        { status: 400 }
+      );
+    }
+
     const deletedRecord = await prisma.attendance.delete({
       where: { id: attendanceId },
     });
 
-    return NextResponse.json({ success: true, data: deletedRecord });
+    return NextResponse.json({
+      success: true,
+      message: "Attendance deleted successfully",
+      data: deletedRecord,
+    });
   } catch (error: any) {
     console.error("Error deleting attendance:", error);
     return NextResponse.json(
-      { success: false, error: error.message },
+      { success: false, message: "Error deleting attendance", error: error.message },
       { status: 500 }
     );
   }

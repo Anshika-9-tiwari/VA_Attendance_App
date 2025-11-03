@@ -133,6 +133,7 @@ export async function GET(req: Request) {
 
   // Auto fit column widths
   sheet.columns.forEach((col) => {
+    if (!col?.eachCell) return;
     let maxLength = 0;
     col.eachCell({ includeEmpty: true }, (cell) => {
       const cellValue = cell.value ? cell.value.toString() : "";

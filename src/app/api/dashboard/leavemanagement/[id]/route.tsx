@@ -3,15 +3,18 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+// GET Leave by ID 
 // ================================
-// GET Leave by ID (with user name)
-// ================================
-export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function GET(req: Request, context: any) {
   try {
-    const { id } = params;
+    const id = context?.params?.id;
+
+    if (!id) {
+      return NextResponse.json(
+        { message: "Leave ID is required" },
+        { status: 400 }
+      );
+    }
 
     const leave = await prisma.leave.findUnique({
       where: { id: Number(id) },
@@ -26,31 +29,35 @@ export async function GET(
       return NextResponse.json({ message: "Leave not found" }, { status: 404 });
     }
 
-    return NextResponse.json(leave);
+    return NextResponse.json({ success: true, data: leave });
   } catch (err: any) {
     console.error("Error fetching leave:", err);
     return NextResponse.json(
-      { message: "Failed to fetch leave", error: err.message },
+      { success: false, message: "Failed to fetch leave", error: err.message },
       { status: 500 }
     );
   }
 }
 
 // ================================
-// PUT: Update Leave 
+// PUT: Update Leave
 // ================================
-export async function PUT(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(req: Request, context: any) {
   try {
-    const { id } = params;
+    const id = context?.params?.id;
+    if (!id) {
+      return NextResponse.json(
+        { message: "Leave ID is required" },
+        { status: 400 }
+      );
+    }
+
     const body = await req.json();
     const { userName, leaveType, startDate, endDate, status, reason } = body;
 
     if (!userName || !leaveType || !startDate || !endDate || !reason) {
       return NextResponse.json(
-        { message: "All fields are required, including reason." },
+        { message: "All fields are required." },
         { status: 400 }
       );
     }
@@ -60,13 +67,10 @@ export async function PUT(
     });
 
     if (!user) {
-      return NextResponse.json(
-        { message: "User not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
-    //  Auto calculate number of days
+    // Auto-calculate number of leave days
     const start = new Date(startDate);
     const end = new Date(endDate);
     const diffTime = end.getTime() - start.getTime();
@@ -80,7 +84,7 @@ export async function PUT(
 
     const numberOfDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
 
-    //  Update leave record
+    // Update leave record
     const updated = await prisma.leave.update({
       where: { id: Number(id) },
       data: {
@@ -88,7 +92,7 @@ export async function PUT(
         leaveType,
         startDate: start,
         endDate: end,
-        numberOfDays, // auto calculated
+        numberOfDays,
         status,
         reason,
       },
@@ -96,13 +100,14 @@ export async function PUT(
     });
 
     return NextResponse.json({
+      success: true,
       message: "Leave updated successfully",
-      leave: updated,
+      data: updated,
     });
   } catch (err: any) {
     console.error("Error updating leave:", err);
     return NextResponse.json(
-      { message: "Failed to update leave", error: err.message },
+      { success: false, message: "Failed to update leave", error: err.message },
       { status: 500 }
     );
   }
