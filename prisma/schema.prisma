@@ -1,0 +1,129 @@
+
+// Define your datasource (MySQL, PostgreSQL, etc.)
+datasource db {
+  provider = "postgresql" 
+  url      = env("DATABASE_URL")
+}
+
+// Define generator for Prisma Client
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+// 1. User Table
+
+model User {
+  id         Int         @id @default(autoincrement())
+  name       String
+  email      String      @unique
+  password   String
+  phone      String?
+  address    String?
+  dateOfJoining DateTime?
+  department String?
+  position   String?
+  role       Role        @default(EMPLOYEE)
+  status     Status      @default(ACTIVE)
+  createdAt  DateTime    @default(now())
+
+  // Relations
+  attendance Attendance[]
+  leaves     Leave[]
+}
+
+// 2. Attendance Table
+
+model Attendance {
+  id          Int       @id @default(autoincrement())
+  date        DateTime
+  checkInTime DateTime?
+  checkOutTime DateTime?
+  workHr      String?   
+  location    String?  @default("Office")
+  siteName   String?
+  status      AttendanceStatus @default(PRESENT)
+  createdAt   DateTime @default(now())
+
+  // Relations
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+}
+
+
+// 3. Leave Management Table
+//
+model Leave {
+  id        Int        @id @default(autoincrement())
+  leaveType LeaveType
+  startDate DateTime
+  endDate   DateTime
+  numberOfDays Int
+  reason    String?
+  status    LeaveStatus @default(PENDING)
+  appliedAt DateTime    @default(now())
+
+  // Relations
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+}
+
+//4. Work-Report Table
+//
+model WorkReport {
+  id              Int       @id @default(autoincrement())
+  date            DateTime
+  customerName    String
+  location        String?
+  purpose         String?
+  inTime          DateTime?
+  outTime         DateTime?
+  issue           String?
+  machineSystem   String?
+  reportedBy      String?
+  actionTaken     String?
+  status          String?
+  task            String?
+  actionRequired  String?
+  remark          String?
+  partNumber      String?
+  serialNumber    String?
+  qty             Int?
+  additionalNote  String?
+  preparedBy      String?
+  submittedTo     String?
+  submissionTime  DateTime? @default(now())
+  createdAt       DateTime  @default(now())
+}
+
+
+//
+// Enums
+//
+enum Role {
+  ADMIN
+  EMPLOYEE
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  HALF_DAY
+}
+
+enum LeaveType {
+  SICK
+  CASUAL
+}
+
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
