@@ -42,8 +42,8 @@ export default function Signup() {
 
   return (
     <>
-      <div className="flex justify-center items-center h-screen overflow-x-hidden">
-        <div className="w-auto h-auto flex flex-col border-2 items-center border-white rounded-xl p-6 shadow-lg">
+      <div className="flex justify-center items-center h-screen overflow-x-hidden bg-white text-gray-800">
+        <div className="w-auto h-auto flex flex-col border-2 items-center border-gray-100 rounded-xl p-6 shadow-lg">
           <img src="/Velocity-ALogo2.png" alt="VelocityAutomation" width={150} />
           <p className="text-xs p-2">
             Already have account{" "}
@@ -54,7 +54,7 @@ export default function Signup() {
 
           <form
             onSubmit={handleSignup}
-            className="flex flex-col justify-center items-center max-w-full p-6 h-full w-full"
+            className="flex flex-col justify-center items-center max-w-full p-6 h-full w-full text-gray-500"
           >
             {/* Full Name */}
             <div className="p-2 mt-2 w-full">
@@ -66,7 +66,7 @@ export default function Signup() {
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="border-2 border-white shadow-lg p-3 rounded-2xl w-full"
+                className="border-2 border-gray-50 shadow-lg p-3 rounded-2xl w-full"
               />
             </div>
 
@@ -80,7 +80,7 @@ export default function Signup() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="border-2 border-white shadow-lg p-3 rounded-2xl w-full"
+                className="border-2 border-gray-50 shadow-lg p-3 rounded-2xl w-full"
               />
             </div>
 
@@ -94,7 +94,7 @@ export default function Signup() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="border-2 border-white shadow-lg p-3 rounded-2xl w-full"
+                className="border-2 border-gray-50 shadow-lg p-3 rounded-2xl w-full"
               />
             </div>
 
@@ -106,7 +106,7 @@ export default function Signup() {
                 required
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
-                className="border-2 border-white shadow-lg p-3 rounded-2xl w-full bg-white text-gray-700"
+                className="border-2 border-gray-50 shadow-lg p-3 rounded-2xl w-full bg-white text-gray-400"
               >
                 <option value="">Select Role</option>
                 <option value="admin">Admin</option>
@@ -118,7 +118,7 @@ export default function Signup() {
             <div className="p-2 mt-2 w-full">
               <button
                 type="submit"
-                className="bg-red-600 text-white p-3 w-full rounded-2xl border-white shadow-xl"
+                className="bg-red-600 text-white p-3 w-full rounded-2xl border-white shadow-2xl"
               >
                 Signup
               </button>

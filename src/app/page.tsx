@@ -41,8 +41,8 @@ export default function Login() {
 
   return (
     <>
-      <div className="flex justify-center items-center h-screen overflow-x-hidden">
-        <div className="w-auto h-auto flex flex-col border-2 items-center border-white rounded-xl p-6 shadow-lg">
+      <div className="flex justify-center items-center h-screen overflow-x-hidden bg-white text-gray-700">
+        <div className="w-auto h-auto flex flex-col border-3 items-center border-gray-100 rounded-xl p-6 shadow-xl">
           <img src="/Velocity-ALogo2.png" alt="VelocityAutomation" width={150} />
           <p className="text-xs p-2">
             don't have account{" "}
@@ -65,7 +65,7 @@ export default function Login() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="border-2 border-white shadow-lg p-3 rounded-2xl w-full"
+                className="border-2 border-gray-50 shadow-lg p-3 rounded-2xl w-full"
               />
             </div>
 
@@ -79,7 +79,7 @@ export default function Login() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="border-2 border-white shadow-lg p-3 rounded-2xl w-full"
+                className="border-2 border-gray-50 shadow-lg p-3 rounded-2xl w-full"
               />
             </div>
 

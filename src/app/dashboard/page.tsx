@@ -46,13 +46,13 @@ export default function DashboardPage() {
   ];
 
   return (
-    <div className="flex flex-col justify-center items-center p-5 max-w-7xl mx-auto overflow-hidden">
+    <div className="flex flex-col justify-center items-center p-5 max-w-7xl mx-auto overflow-hidden bg-white text-gray-600">
       {/* Header */}
       <motion.div
         whileInView={{ opacity: 1, y: 0 }}
         initial={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.8 }}
-        className="flex flex-col justify-center items-center p-5 mb-15 mt-10 rounded-lg shadow-lg bg-white"
+        className="flex flex-col justify-center items-center p-5 mb-15 mt-10 rounded-lg shadow-lg border-2 border-orange-400 bg-white"
       >
         <h1 className="text-2xl font-bold">Dashboard</h1>
         <p className="text-gray-600">
@@ -61,11 +61,11 @@ export default function DashboardPage() {
       </motion.div>
 
       {/* Stats Section */}
-      <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 p-5 rounded-lg shadow-lg bg-gray-50">
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 p-5 rounded-lg shadow-xl border-t-2 border-gray-200  bg-auto">
         {/* Total Employees */}
         <motion.div
           whileHover={{ scale: 1.05 }}
-          className="bg-blue-400 text-white p-4 rounded-lg shadow-md flex flex-col justify-center items-center"
+          className="bg-blue-400 border-t-2 border-t-gray-400 text-white p-4 rounded-lg shadow-lg flex flex-col justify-center items-center"
         >
           <h2 className="text-lg font-semibold">Total Employees</h2>
           <p className="text-2xl font-bold">{stats.totalEmployees}</p>
@@ -74,7 +74,7 @@ export default function DashboardPage() {
         {/* Present */}
         <motion.div
           whileHover={{ scale: 1.05 }}
-          className="bg-green-400 text-white p-4 rounded-lg shadow-md flex flex-col justify-center items-center"
+          className="bg-green-300  border-t-2 border-t-gray-400 text-white p-4 rounded-lg shadow-lg flex flex-col justify-center items-center"
         >
           <h2 className="text-lg font-semibold">Present</h2>
           <p className="text-2xl font-bold">{stats.totalPresent}</p>
@@ -83,7 +83,7 @@ export default function DashboardPage() {
         {/* On Leave */}
         <motion.div
           whileHover={{ scale: 1.05 }}
-          className="bg-yellow-500 text-white p-4 rounded-lg shadow-md flex flex-col justify-center items-center"
+          className="bg-accent  border-t-2 border-t-gray-400 text-white p-4 rounded-lg shadow-lg flex flex-col justify-center items-center"
         >
           <h2 className="text-lg font-semibold">On Leave</h2>
           <p className="text-2xl font-bold">{stats.totalLeave}</p>
@@ -92,7 +92,7 @@ export default function DashboardPage() {
         {/* Absent */}
         <motion.div
           whileHover={{ scale: 1.05 }}
-          className="bg-orange-700 text-white p-4 rounded-lg shadow-md flex flex-col justify-center items-center"
+          className="bg-sky-300  border-t-2 border-t-gray-400 text-white p-4 rounded-lg shadow-lg flex flex-col justify-center items-center"
         >
           <h2 className="text-lg font-semibold">Absent</h2>
           <p className="text-2xl font-bold">{stats.totalAbsent}</p>

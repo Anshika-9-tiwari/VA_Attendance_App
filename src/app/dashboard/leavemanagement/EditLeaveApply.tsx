@@ -90,7 +90,7 @@ export default function EditLeaveModal({
   if (!leavemanagement) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
+    <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50 text-gray-800">
       <div className="bg-white p-6 rounded-lg w-11/12 max-w-2xl shadow-lg animate-fadeIn">
         <h2 className="text-xl font-semibold text-center mb-4">
           Edit Leave
@@ -105,7 +105,7 @@ export default function EditLeaveModal({
             name="userName"
             type="text"
             value={form.userName}
-            className="input input-bordered bg-gray-100 cursor-not-allowed"
+            className="input input-bordered cursor-not-allowed"
             disabled
           />
 
@@ -114,7 +114,7 @@ export default function EditLeaveModal({
             name="leaveType"
             value={form.leaveType}
             onChange={handleChange}
-            className="select select-bordered w-full shadow-md p-3 rounded-2xl"
+            className="select select-bordered w-full shadow-md p-3 rounded-2xl bg-white border-gray-300"
           >
             <option value="">Leave Type</option>
             <option value="SICK">Sick Leave</option>
@@ -127,7 +127,7 @@ export default function EditLeaveModal({
             type="date"
             value={form.startDate}
             onChange={handleChange}
-            className="input input-bordered w-full shadow-md p-3 rounded-2xl"
+            className="input input-bordered w-full shadow-md p-3 rounded-2xl bg-white border-gray-300"
           />
 
           <input
@@ -135,7 +135,7 @@ export default function EditLeaveModal({
             type="date"
             value={form.endDate}
             onChange={handleChange}
-            className="input input-bordered w-full shadow-md p-3 rounded-2xl"
+            className="input input-bordered w-full shadow-md p-3 rounded-2xl bg-white border-gray-300"
           />
 
           {/*uto-calculated Number of Days */}
@@ -152,7 +152,7 @@ export default function EditLeaveModal({
             name="status"
             value={form.status}
             onChange={handleChange}
-            className="select select-bordered w-full shadow-md p-3 rounded-2xl"
+            className="select select-bordered w-full shadow-md p-3 rounded-2xl bg-white border-gray-300"
           >
             <option value="">Select Status</option>
             <option value="PENDING">Pending</option>
@@ -167,7 +167,7 @@ export default function EditLeaveModal({
             onChange={handleChange}
             placeholder="Reason (required)"
             required
-            className="textarea textarea-bordered w-full md:col-span-2 shadow-md p-3 rounded-2xl"
+            className="textarea textarea-bordered w-full md:col-span-2 shadow-md p-3 rounded-2xl bg-white border-gray-300"
           />
 
           {/* Buttons */}
@@ -175,13 +175,13 @@ export default function EditLeaveModal({
             <button
               type="button"
               onClick={onClose}
-              className="btn bg-gray-200 hover:bg-gray-300"
+              className="btn bg-sky-200 hover:bg-gray-300 text-black border-gray-400 rounded-md"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="btn bg-green-600 text-white hover:bg-green-700"
+              className="btn bg-green-600 text-white hover:bg-green-700 rounded-md"
             >
               Save Changes
             </button>

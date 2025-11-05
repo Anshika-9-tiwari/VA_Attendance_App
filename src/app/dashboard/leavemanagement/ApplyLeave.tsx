@@ -39,7 +39,7 @@ export default function ApplyLeave() {
       const data = await res.json();
 
       if (res.ok) {
-        alert("Leave applied successfully!");
+        alert("✅ Leave applied successfully!");
         router.refresh();
       } else {
         alert(data.message || "Error applying leave");
@@ -50,7 +50,6 @@ export default function ApplyLeave() {
       setLoading(false);
     }
 
-    // Reset form
     setUserName('');
     setLeaveType('');
     setFromDate('');
@@ -65,74 +64,101 @@ export default function ApplyLeave() {
   return (
     <>
       {/* Open modal Button */}
-      <label htmlFor="attendance_modal" className="btn bg-green-50 hover:bg-blue-50 shadow-md font-semibold rounded-lg">
+      <label
+        htmlFor="attendance_modal"
+        className="btn bg-sky-50 hover:bg-blue-100 border-red-300 text-gray-600 shadow-md font-semibold rounded-lg"
+      >
         Apply For Leave
       </label>
 
       {/* Modal */}
       <input type="checkbox" id="attendance_modal" className="modal-toggle" />
       <div className="modal" role="dialog">
-        <div className="modal-box w-11/12 max-w-3xl">
+        <div className="modal-box w-11/12 max-w-3xl bg-white">
           <h1 className="text-xl sm:text-2xl font-semibold text-center mb-6">Apply for Leave</h1>
 
           <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <input
-              type="text"
-              placeholder="Full Name"
-              required
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
-              className="input input-bordered w-full shadow-md p-3 rounded-2xl"
-            />
+            
+            {/* Full Name */}
+            <div className="flex flex-col">
+              <label className="text-sm font-semibold mb-1">Full Name</label>
+              <input
+                type="text"
+                placeholder="Enter your full name"
+                required
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                className="input input-bordered w-full shadow-md p-3 rounded-2xl bg-white border-t-gray-200"
+              />
+            </div>
 
-            <select
-              required
-              value={leavetype}
-              onChange={(e) => setLeaveType(e.target.value)}
-              className="select select-bordered w-full shadow-md p-3 rounded-2xl"
-            >
-              <option value="">Leave Type</option>
-              <option value="SICK">Sick Leave</option>
-              <option value="CASUAL">Casual Leave</option>
-            </select>
+            {/* Leave Type */}
+            <div className="flex flex-col">
+              <label className="text-sm font-semibold mb-1">Leave Type</label>
+              <select
+                required
+                value={leavetype}
+                onChange={(e) => setLeaveType(e.target.value)}
+                className="select select-bordered w-full shadow-md p-3 rounded-2xl bg-white border-t-gray-200"
+              >
+                <option value="">Select Leave Type</option>
+                <option value="SICK">Sick Leave</option>
+                <option value="CASUAL">Casual Leave</option>
+              </select>
+            </div>
 
-            <input
-              type="date"
-              placeholder="From Date"
-              required
-              value={fromdate}
-              onChange={(e) => setFromDate(e.target.value)}
-              className="input input-bordered w-full shadow-md p-3 rounded-2xl"
-            />
+            {/* From Date */}
+            <div className="flex flex-col">
+              <label className="text-sm font-semibold mb-1">From Date</label>
+              <input
+                type="date"
+                required
+                value={fromdate}
+                onChange={(e) => setFromDate(e.target.value)}
+                className="input input-bordered w-full shadow-md p-3 rounded-2xl bg-white border-t-gray-200"
+              />
+            </div>
 
-            <input
-              type="date"
-              placeholder="To Date"
-              required
-              value={todate}
-              onChange={(e) => setToDate(e.target.value)}
-              className="input input-bordered w-full shadow-md p-3 rounded-2xl"
-            />
+            {/* To Date */}
+            <div className="flex flex-col">
+              <label className="text-sm font-semibold mb-1">To Date</label>
+              <input
+                type="date"
+                required
+                value={todate}
+                onChange={(e) => setToDate(e.target.value)}
+                className="input input-bordered w-full shadow-md p-3 rounded-2xl bg-white border-t-gray-200"
+              />
+            </div>
 
-            <select
-              required
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-              className="select select-bordered w-full shadow-md p-3 rounded-2xl"
-            >
-              <option value="">Select Status</option>
-              <option value="APPROVED">Approved</option>
-              <option value="REJECTED">Rejected</option>
-              <option value="PENDING">Pending</option>
-            </select>
+            {/* Status */}
+            <div className="flex flex-col">
+              <label className="text-sm font-semibold mb-1">Status</label>
+              <select
+                required
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+                className="select select-bordered w-full shadow-md p-3 rounded-2xl bg-white border-t-gray-200"
+              >
+                <option value="">Select Status</option>
+                <option value="APPROVED">Approved</option>
+                <option value="REJECTED">Rejected</option>
+                <option value="PENDING">Pending</option>
+              </select>
+            </div>
 
-            <textarea
-              placeholder="Reason for Leave"
-              value={reason}
-              onChange={(e) => setReason(e.target.value)}
-              className="textarea textarea-bordered w-full md:col-span-2 shadow-md p-3 rounded-2xl"
-            />
+            {/* Reason */}
+            <div className="flex flex-col md:col-span-2">
+              <label className="text-sm font-semibold mb-1">Reason</label>
+              <textarea
+                placeholder="Enter reason for leave"
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+                className="textarea textarea-bordered w-full shadow-md p-3 rounded-2xl bg-white border-t-gray-200"
+              />
+            </div>
 
+            {/* Submit */}
             <div className="md:col-span-2">
               <button
                 type="submit"
@@ -145,7 +171,10 @@ export default function ApplyLeave() {
           </form>
 
           <div className="modal-action">
-            <label htmlFor="attendance_modal" className="btn rounded-md bg-blue-200 hover:bg-green-100 shadow-md font-semibold">
+            <label
+              htmlFor="attendance_modal"
+              className="btn rounded-md bg-blue-200 hover:bg-green-100 shadow-md font-semibold text-black border-orange-300"
+            >
               Cancel
             </label>
           </div>

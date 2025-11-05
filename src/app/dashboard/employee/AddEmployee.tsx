@@ -78,14 +78,14 @@ export default function AddEmployee({ onAdd }: { onAdd: (employee: any) => void 
   return (
     <>
       {/* Open Modal Button */}
-      <label htmlFor="attendance_modal" className="btn bg-green-50 hover:bg-blue-50 shadow-md font-semibold rounded-lg">
+      <label htmlFor="attendance_modal" className="btn bg-green-50 hover:bg-blue-100 text-gray-800  shadow-md font-semibold rounded-lg">
         Add New Employee
       </label>
 
       {/* Modal */}
       <input type="checkbox" id="attendance_modal" className="modal-toggle" />
       <div className="modal" role="dialog">
-        <div className="modal-box w-11/12 max-w-3xl">
+        <div className="modal-box w-11/12 max-w-3xl bg-white shadow-lg rounded-lg">
           <h1 className="text-xl sm:text-2xl font-semibold text-center mb-6">
             Add New Employee
           </h1>
@@ -97,15 +97,15 @@ export default function AddEmployee({ onAdd }: { onAdd: (employee: any) => void 
               required
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
-              className="input input-bordered w-full shadow-md p-3 rounded-2xl"
+              className="input input-bordered w-full shadow-md border-t-gray-200 p-3 rounded-2xl bg-white"
             />
-
+            <label className="text-sm font-semibold mb-0 pb-0">Date</label>
             <input
               type="date"
               required
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="input input-bordered w-full shadow-md p-3 rounded-2xl"
+              className="input input-bordered w-full shadow-md p-3 rounded-2xl bg-white border-t-gray-200"
             />
 
             <input
@@ -114,7 +114,7 @@ export default function AddEmployee({ onAdd }: { onAdd: (employee: any) => void 
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="input input-bordered w-full shadow-md p-3 rounded-2xl"
+              className="input input-bordered w-full shadow-md p-3 rounded-2xl bg-white border-t-gray-200"
             />
 
             <input
@@ -123,14 +123,14 @@ export default function AddEmployee({ onAdd }: { onAdd: (employee: any) => void 
               required
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className="input input-bordered w-full shadow-md p-3 rounded-2xl"
+              className="input input-bordered w-full shadow-md p-3 rounded-2xl bg-white border-t-gray-200"
             />
 
             <select
               required
               value={department}
               onChange={(e) => setDepartment(e.target.value)}
-              className="select select-bordered w-full shadow-md p-3 rounded-2xl"
+              className="select select-bordered w-full shadow-md p-3 rounded-2xl bg-white border-t-gray-200"
             >
               <option value="">Select Department</option>
               <option value="IT">IT</option>
@@ -146,7 +146,7 @@ export default function AddEmployee({ onAdd }: { onAdd: (employee: any) => void 
               required
               value={position}
               onChange={(e) => setPosition(e.target.value)}
-              className="input input-bordered w-full shadow-md p-3 rounded-2xl"
+              className="input input-bordered w-full shadow-md p-3 rounded-2xl bg-white border-t-gray-200"
             />
 
             <input
@@ -155,14 +155,14 @@ export default function AddEmployee({ onAdd }: { onAdd: (employee: any) => void 
               required
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-              className="input input-bordered w-full shadow-md p-3 rounded-2xl"
+              className="input input-bordered w-full shadow-md p-3 rounded-2xl bg-white border-t-gray-200"
             />
 
             <select
               required
               value={status}
               onChange={(e) => setStatus(e.target.value)}
-              className="select select-bordered w-full shadow-md p-3 rounded-2xl"
+              className="select select-bordered w-full shadow-md p-3 rounded-2xl bg-white border-t-gray-200"
             >
               <option value="">Select Status</option>
               <option value="active">Active</option>
@@ -180,7 +180,7 @@ export default function AddEmployee({ onAdd }: { onAdd: (employee: any) => void 
           </form>
 
           <div className="modal-action">
-            <label htmlFor="attendance_modal" className="btn rounded-md bg-blue-200 hover:bg-green-100 shadow-md font-semibold">
+            <label htmlFor="attendance_modal" className="btn rounded-md bg-sky-200 hover:bg-green-100 text-gray-800 shadow-md font-semibold">
               Cancel
             </label>
           </div>

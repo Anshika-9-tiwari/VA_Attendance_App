@@ -106,7 +106,7 @@ export default function DashboardPage() {
 
   return (
     <>
-      <div className="flex flex-col justify-center items-start px-3 sm:px-6 md:px-10 lg:px-12 py-5 w-full max-w-8xl mx-auto">
+      <div className="flex flex-col justify-center items-start px-3 sm:px-6 md:px-10 lg:px-12 py-5 w-full max-w-8xl mx-auto bg-white text-gray-700">
         
         {/* Header */}
         <div className="mb-10 rounded-lg shadow-lg bg-white border border-red-400 p-2 md:p-2.5 mt-5">
@@ -123,7 +123,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Filter Section */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-5 lg:gap-6 p-5 mt-8 bg-white shadow-lg rounded-lg border border-gray-200 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-5 lg:gap-6 p-5 mt-8 bg-white shadow-lg rounded-lg border border-gray-300 w-full">
           
           {/* Date Picker */}
           <div className="flex flex-col">
@@ -198,10 +198,10 @@ export default function DashboardPage() {
         </div>
         
         {/* Table Section */}
-        <div className="overflow-x-auto rounded-box border border-base-content/10 bg-base-100 p-5 mt-5 w-full shadow-lg">
+        <div className="overflow-x-auto rounded-box border border-base-content/30 border-t border-t-gray-300 bg-base-50 p-5 mt-5 w-full shadow-lg text-gray-700">
           <table className="table">
-            <thead>
-              <tr>
+            <thead className="bg-white text-gray-600">
+              <tr className="border-b border-b-gray-300">
                 <th>Id</th>
                 <th>Employee</th>
                 <th>Date</th>

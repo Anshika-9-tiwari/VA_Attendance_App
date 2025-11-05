@@ -46,7 +46,7 @@ export default function EditEmployeeModal({
   if (!employee) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
+    <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50 text-gray-800">
       <div className="bg-white p-6 rounded-lg w-11/12 max-w-2xl shadow-lg">
         <h2 className="text-xl font-semibold text-center mb-4">Edit Employee</h2>
 
@@ -56,35 +56,42 @@ export default function EditEmployeeModal({
             value={form.name || ""}
             onChange={handleChange}
             placeholder="Full Name"
-            className="input input-bordered"
+            className="input input-bordered bg-white border-gray-300"
           />
           <input
             name="email"
             value={form.email || ""}
             onChange={handleChange}
             placeholder="Email"
-            className="input input-bordered"
+            className="input input-bordered bg-white border-gray-300"
           />
           <input
             name="phone"
             value={form.phone || ""}
             onChange={handleChange}
             placeholder="Phone"
-            className="input input-bordered"
+            className="input input-bordered bg-white border-gray-300"
           />
-          <input
+          <select
             name="department"
+            required
             value={form.department || ""}
             onChange={handleChange}
-            placeholder="Department"
-            className="input input-bordered"
-          />
+            className="select select-bordered w-full shadow-md p-3 rounded-2xl bg-white border-t-gray-200"
+          >
+            <option value="">Select Department</option>
+            <option value="IT">IT</option>
+            <option value="Engineering">Engineering</option>
+            <option value="HR">HR</option>
+            <option value="Finance">Finance</option>
+            <option value="Marketing">Marketing</option>
+          </select>
           <input
             name="position"
             value={form.position || ""}
             onChange={handleChange}
             placeholder="Position"
-            className="input input-bordered"
+            className="input input-bordered bg-white border-gray-300" 
           />
           <input
             type="date"
@@ -95,13 +102,13 @@ export default function EditEmployeeModal({
                 : ""
             }
             onChange={handleChange}
-            className="input input-bordered"
+            className="input input-bordered bg-white border-gray-300"
           />
           <select
             name="status"
             value={form.status || ""}
             onChange={handleChange}
-            className="select select-bordered"
+            className="select select-bordered bg-white border-gray-300"
           >
             <option value="ACTIVE">Active</option>
             <option value="INACTIVE">Inactive</option>
@@ -111,14 +118,14 @@ export default function EditEmployeeModal({
             value={form.address || ""}
             onChange={handleChange}
             placeholder="Address"
-            className="input input-bordered md:col-span-2"
+            className="input input-bordered md:col-span-2 bg-white border-gray-300"
           />
 
           <div className="flex justify-end gap-3 mt-4 md:col-span-2">
             <button
               type="button"
               onClick={onClose}
-              className="btn bg-gray-200 hover:bg-gray-300"
+              className="btn bg-gray-200 hover:bg-gray-300 text-black"
             >
               Cancel
             </button>

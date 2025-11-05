@@ -65,14 +65,14 @@ export default function EditAttendance({ attendance, onUpdated }: EditAttendance
       <div className="modal-box bg-white text-black max-w-md w-full">
         <h3 className="font-bold text-lg mb-4 text-center">Edit Attendance</h3>
 
-        <div className="space-y-3">
+        <div className="space-y-3 text-gray-600">
           <div>
             <label className="text-sm font-semibold">Employee Name</label>
             <input
               type="text"
               value={userName}
               disabled
-              className="input input-bordered w-full"
+              className="input input-bordered w-full bg-white"
             />
           </div>
 
@@ -82,7 +82,7 @@ export default function EditAttendance({ attendance, onUpdated }: EditAttendance
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="input input-bordered w-full"
+              className="input input-bordered w-full bg-white border-gray-300"
             />
           </div>
 
@@ -97,7 +97,7 @@ export default function EditAttendance({ attendance, onUpdated }: EditAttendance
                   setSiteName(""); 
                 }
               }}
-              className="select select-bordered w-full"
+              className="select select-bordered w-full bg-white border-gray-300"
             >
               <option value="">Select Location</option>
               <option value="office">Office</option>
@@ -114,7 +114,7 @@ export default function EditAttendance({ attendance, onUpdated }: EditAttendance
                 type="text"
                 value={siteName}
                 onChange={(e) => setSiteName(e.target.value)}
-                className="input input-bordered w-full"
+                className="input input-bordered w-full bg-white border-gray-300"
               />
             </div>
           )}
@@ -125,7 +125,7 @@ export default function EditAttendance({ attendance, onUpdated }: EditAttendance
               type="time"
               value={checkInTime}
               onChange={(e) => setCheckInTime(e.target.value)}
-              className="input input-bordered w-full"
+              className="input input-bordered w-full bg-white border-gray-300"
             />
           </div>
 
@@ -135,7 +135,7 @@ export default function EditAttendance({ attendance, onUpdated }: EditAttendance
               type="time"
               value={checkOutTime}
               onChange={(e) => setCheckOutTime(e.target.value)}
-              className="input input-bordered w-full"
+              className="input input-bordered w-full bg-white border-gray-300"
             />
           </div>
         </div>

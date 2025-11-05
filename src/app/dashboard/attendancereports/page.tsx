@@ -51,9 +51,9 @@ export default function AttendanceReportPage() {
 
 
   return (
-    <div className="px-5 md:px-10 py-10 max-w-8xl mx-auto">
+    <div className="px-5 md:px-10 py-16 max-w-8xl mx-auto bg-white text-gray-800">
       {/* Header */}
-      <div className="mb-8 p-4 rounded-lg shadow-lg bg-green-50 border border-gray-200">
+      <div className="mb-8 p-4 rounded-lg shadow-lg bg-sky-50 border border-gray-200">
         <h1 className="text-2xl font-bold">Attendance Report</h1>
         <p className="text-sm text-gray-600">
           View monthly attendance summary and download reports.
@@ -115,8 +115,8 @@ export default function AttendanceReportPage() {
       {/* Table */}
       <div className="overflow-x-auto mt-6 rounded-lg shadow-lg border border-gray-300 bg-white p-5">
         <table className="table w-full">
-          <thead>
-            <tr>
+          <thead className="text-gray-500">
+            <tr className="border-b-gray-300">
               <th>ID</th>
               <th>Employee</th>
               <th>Present Days</th>

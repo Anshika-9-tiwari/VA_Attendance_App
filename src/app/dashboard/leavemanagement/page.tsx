@@ -78,9 +78,9 @@ export default function ReportPage() {
 
   return (
     <>
-    <div className="flex flex-col justify-center items-start px-3 sm:px-6 md:px-10 lg:px-12 py-5 w-full max-w-8xl mx-auto">
+    <div className="flex flex-col justify-center items-start px-3 sm:px-6 md:px-10 lg:px-12 py-5 w-full max-w-8xl mx-auto overflow-hidden h-screen bg-white text-gray-800">
       {/* Header */}
-      <div className="mb-10 rounded-lg shadow-lg bg-white border border-red-400 p-2 md:p-2.5 mt-5 hover:bg-blue-50">
+      <div className="mb-10 rounded-lg shadow-lg bg-white border border-red-400 p-3 md:p-3.5 mt-5 hover:bg-blue-50">
         <h2 className="text-lg sm:text-xl md:text-2xl font-bold">Leave Management</h2>
       </div>
 
@@ -90,7 +90,7 @@ export default function ReportPage() {
       </div>
 
       {/* Filter Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-5 lg:gap-8 p-5 mt-4 bg-white shadow-lg rounded-lg border border-gray-200 w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-5 lg:gap-10 p-5 mt-4 bg-white shadow-lg rounded-lg border border-gray-300 w-full">
         <div className="flex flex-col">
           <label className="text-sm font-semibold mb-1">From Date</label>
           <input
@@ -161,10 +161,10 @@ export default function ReportPage() {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-box border border-base-content/10 bg-base-100 p-5 mt-5 w-full shadow-lg">
+      <div className="overflow-x-auto rounded-box border border-base-content/20 bg-base-50 p-5 mt-5 w-full shadow-lg border-t-2 border-t-gray-200">
         <table className="table w-full">
-          <thead>
-            <tr>
+          <thead className="text-gray-600">
+            <tr className="border-b-gray-300">
               <th>ID</th>
               <th>Employee</th>
               <th>Leave Type</th>

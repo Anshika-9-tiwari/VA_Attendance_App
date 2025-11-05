@@ -69,21 +69,21 @@ export default function DashboardPage() {
 
   return (
     <>
-      <div className="flex flex-col justify-center items-start px-3 sm:px-6 md:px-10 lg:px-12 py-5 w-full max-w-8xl mx-auto">
-        <div className="mb-10 rounded-lg shadow-lg bg-white border border-red-400 p-2 mt-5">
+      <div className="flex flex-col justify-center items-start px-3 sm:px-6 md:px-10 lg:px-12 py-8 w-full max-w-8xl mx-auto overflow-hidden h-screen bg-white text-gray-800">
+        <div className="mb-12 rounded-lg shadow-lg bg-white border border-red-400 p-3 mt-0">
           <h2 className="text-lg sm:text-xl md:text-xl font-semibold">
             Employee Directory
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5  md:gap-10 mb-10">
           <div>
             <AddEmployee onAdd={handleAddEmployee} />
           </div>
 
           {/* Download */}
           <motion.div whileHover={{ scale: 1.05 }}>
-            <div className="flex items-end">
+            <div className="flex items-end p-1">
               <select
                 defaultValue="all"
                 onChange={(e) => handleDownload(e.target.value)}
@@ -96,8 +96,9 @@ export default function DashboardPage() {
             </div>
           </motion.div>
         </div>
-
-        <div className="overflow-x-auto rounded-box border border-base-content/15 bg-base-100 p-5 mt-5 w-full shadow-lg">
+        
+        {/* table */}
+        <div className="overflow-x-auto rounded-box border border-base-content/25 bg-base-50 p-5 mt-5 w-full shadow-lg border-t-2 border-t-gray-200">
           {loading ? (
             <div className="flex justify-center items-center py-10">
               <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-500"></div>
@@ -105,9 +106,9 @@ export default function DashboardPage() {
           ) : employees.length === 0 ? (
             <p className="text-gray-500 text-center py-6">No employees found.</p>
           ) : (
-            <table className="table shadow-lg">
-              <thead>
-                <tr>
+            <table className="table shadow-lg ">
+              <thead className="text-gray-600">
+                <tr className="border-b-gray-300">
                   <th>ID</th>
                   <th>Employee</th>
                   <th>Email</th>
