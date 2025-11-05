@@ -167,7 +167,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         anchor="left"
         sx={{
           width: drawerWidth,
-          maxHeight: '850vh',
+          minHeight: '100vh',
           flexShrink: 0,
           display: open ? 'block' : 'none',
           [`& .MuiDrawer-paper`]: {
