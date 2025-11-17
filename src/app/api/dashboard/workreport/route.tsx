@@ -43,7 +43,7 @@ export async function GET(request: Request) {
       return NextResponse.json(names, { status: 200 });
     }
 
-    // Otherwise → fetch reports
+    // fetch reports
     const where: any = {};
 
     if (preparedBy) where.preparedBy = preparedBy;

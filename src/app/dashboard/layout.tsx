@@ -125,10 +125,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <ListItemButton
           onClick={handleSignOut}
           sx={{
-            color: 'white',
-            bgcolor: 'rgba(255, 255, 255, 0.1)',
+            color: 'red',
+            bgcolor: 'White',
             borderRadius: '8px',
-            '&:hover': { bgcolor: 'white', color: 'red' },
+            '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)', color: 'white' },
             justifyContent: 'center',
             gap: 1,
           }}

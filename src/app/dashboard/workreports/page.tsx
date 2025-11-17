@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import ExcelJS from "exceljs";
 import { exportWorkReportsToExcel, exportWorkReportsToPDF } from "@/lib/exportreport";
 
 export default function WorkReportPage() {
@@ -20,6 +19,7 @@ export default function WorkReportPage() {
     task: "",
     actionRequired: "",
     remark: "",
+    spareUsed: false,
     partNumber: "",
     serialNumber: "",
     qty: "",
@@ -39,7 +39,6 @@ export default function WorkReportPage() {
   const purposes = ["Installation", "Maintenance", "Repair", "Inspection", "Other"];
   const statusOptions = ["Pending", "In Progress", "Completed", "On Hold"];
 
-  // Fetch preparedBy dropdown list
   useEffect(() => {
     fetch("/api/dashboard/workreport?type=preparedBy")
       .then((res) => res.json())
@@ -48,8 +47,8 @@ export default function WorkReportPage() {
   }, []);
 
   const handleChange = (e: any) => {
-    const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
+    const { name, value, type, checked } = e.target;
+    setForm({ ...form, [name]: type === "checkbox" ? checked : value });
   };
 
   const handleSubmit = async (e: any) => {
@@ -66,6 +65,7 @@ export default function WorkReportPage() {
           qty: form.qty ? Number(form.qty) : null,
         }),
       });
+
       if (res.ok) {
         alert("Work report submitted successfully!");
         setForm({
@@ -83,6 +83,7 @@ export default function WorkReportPage() {
           task: "",
           actionRequired: "",
           remark: "",
+          spareUsed: false,
           partNumber: "",
           serialNumber: "",
           qty: "",
@@ -91,7 +92,7 @@ export default function WorkReportPage() {
           submittedTo: "",
         });
       } else {
-        alert(" Failed to submit work report.");
+        alert("Failed to submit work report.");
       }
     } catch (error) {
       console.error(error);
@@ -99,7 +100,6 @@ export default function WorkReportPage() {
     }
   };
 
-  // Fetch filtered reports
   const handleFetchReports = async () => {
     try {
       const params = new URLSearchParams(filters as any).toString();
@@ -111,19 +111,28 @@ export default function WorkReportPage() {
     }
   };
 
-
   return (
     <div className="max-w-6xl mx-auto p-5 m-8 bg-sky-50 text-gray-800 rounded-xl shadow-xl border border-gray-300">
       <h2 className="text-3xl font-bold text-center mb-6">Daily Work Reports</h2>
 
-{/* ----------- FILTER + EXPORT SECTION ------------- */}
+      {/* ---------- FILTER + EXPORT SECTION ---------- */}
       <div className="mt-10 mb-10 bg-white border-gray-300 p-4 rounded-xl shadow-md">
         <h3 className="text-xl font-semibold mb-4">Filter & Download Reports</h3>
+
         <div className="grid grid-cols-4 gap-4 mb-4">
+          {/* From Date */}
           <div className="flex flex-col">
             <label className="text-sm font-semibold mb-1">From Date</label>
-            <input type="date" name="from" value={filters.from} onChange={(e) => setFilters({ ...filters, from: e.target.value })} className="input input-bordered w-full bg-white border-red-200" />
+            <input
+              type="date"
+              name="from"
+              value={filters.from}
+              onChange={(e) => setFilters({ ...filters, from: e.target.value })}
+              className="input input-bordered w-full bg-white border-red-200"
+            />
           </div>
+
+          {/* To Date */}
           <div className="flex flex-col">
             <label className="text-sm font-semibold mb-1">To Date</label>
             <input
@@ -134,6 +143,8 @@ export default function WorkReportPage() {
               className="input input-bordered w-full bg-white border-red-200"
             />
           </div>
+
+          {/* Prepared By */}
           <div className="flex flex-col">
             <label className="text-sm font-semibold mb-1">Employee</label>
             <select
@@ -151,7 +162,10 @@ export default function WorkReportPage() {
 
           <div className="flex flex-col justify-center">
             <label className="text-sm font-semibold mb-1">Download</label>
-            <button onClick={handleFetchReports} className="btn border-red-300 bg-white text-black">
+            <button
+              onClick={handleFetchReports}
+              className="btn border-red-300 bg-white text-black"
+            >
               Reports
             </button>
           </div>
@@ -159,62 +173,131 @@ export default function WorkReportPage() {
 
         {reports.length > 0 && (
           <div className="flex gap-4">
-            <button onClick={() => exportWorkReportsToExcel(reports)} className="btn bg-green-200 text-gray-600 w-40 rounded-box">
+            <button
+              onClick={() => exportWorkReportsToExcel(reports)}
+              className="btn bg-green-200 text-gray-600 w-40 rounded-box"
+            >
               Export Excel
             </button>
-            <button onClick={() => exportWorkReportsToPDF(reports)} className="btn bg-red-200 text-gray-600 w-40 rounded-box">
+            <button
+              onClick={() => exportWorkReportsToPDF(reports)}
+              className="btn bg-red-200 text-gray-600 w-40 rounded-box"
+            >
               Export PDF
             </button>
           </div>
         )}
       </div>
-      {/* ----------- FORM ------------- */}
+
+      {/* ---------- FORM Section ---------- */}
       <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
+
+        {/* LABEL 1: CUSTOMER VISIT */}
+        {/* ------------------------------------ */}
+        <h3 className="col-span-2 text-xl font-bold mt-6 bg-red-100 p-2 rounded">
+          1. Customer Visit
+        </h3>
+
         <div className="flex flex-col">
           <label className="text-sm font-semibold mb-1">Date</label>
-          <input name="date" type="date" value={form.date} onChange={handleChange} className="input input-bordered w-full bg-white border-red-200" required />
+          <input name="date" type="date" value={form.date} onChange={handleChange} className="input input-bordered bg-white border-red-200" required />
         </div>
+
         <div className="flex flex-col">
           <label className="text-sm font-semibold mb-1">Customer Name</label>
-          <input name="customerName" value={form.customerName} onChange={handleChange} className="input input-bordered w-full bg-white border-red-200" placeholder="Customer Name" required />
+          <input name="customerName" value={form.customerName} onChange={handleChange} className="input input-bordered bg-white border-red-200" required />
         </div>
-        <input name="location" value={form.location} onChange={handleChange} className="input input-bordered w-full bg-white border-red-200" placeholder="Location" />
-        <select name="purpose" value={form.purpose} onChange={handleChange} className="select select-bordered w-full bg-white border-red-200">
+
+        <input name="location" value={form.location} onChange={handleChange} className="input input-bordered bg-white border-red-200" placeholder="Location" />
+
+        <select name="purpose" value={form.purpose} onChange={handleChange} className="select select-bordered bg-white border-red-200">
           <option value="">Select Purpose</option>
           {purposes.map((p) => (
             <option key={p}>{p}</option>
           ))}
         </select>
+
         <div className="flex flex-col">
-          <label className="text-sm font-semibold mb-1">CheckIn</label>
-          <input name="inTime" type="time" value={form.inTime} onChange={handleChange} className="input input-bordered w-full bg-white border-red-200" />
+          <label className="text-sm font-semibold mb-1">In Time</label>
+          <input type="time" name="inTime" value={form.inTime} onChange={handleChange} className="input input-bordered bg-white border-red-200" />
         </div>
+
         <div className="flex flex-col">
-          <label className="text-sm font-semibold mb-1">CheckOut</label>
-          <input name="outTime" type="time" value={form.outTime} onChange={handleChange} className="input input-bordered w-full bg-white border-red-200" />
+          <label className="text-sm font-semibold mb-1">Out Time</label>
+          <input type="time" name="outTime" value={form.outTime} onChange={handleChange} className="input input-bordered bg-white border-red-200" />
         </div>
-        <input name="issue" value={form.issue} onChange={handleChange} className="input input-bordered w-full bg-white border-red-200" placeholder="Issue" />
-        <input name="machineSystem" value={form.machineSystem} onChange={handleChange} className="input input-bordered w-full bg-white border-red-200" placeholder="Machine/System" />
-        <input name="reportedBy" value={form.reportedBy} onChange={handleChange} className="input input-bordered w-full bg-white border-red-200" placeholder="Reported By" />
-        <input name="actionTaken" value={form.actionTaken} onChange={handleChange} className="input input-bordered w-full bg-white border-red-200" placeholder="Action Taken" />
-        <select name="status" value={form.status} onChange={handleChange} className="select select-bordered w-full bg-white border-red-200">
+
+        {/* LABEL 2: ISSUE HANDLING */}
+        {/* ------------------------------------ */}
+        <h3 className="col-span-2 text-xl font-bold mt-6 bg-red-100 p-2 rounded">
+          2. Issue Handling
+        </h3>
+
+        <input name="issue" value={form.issue} onChange={handleChange} className="input input-bordered bg-white border-red-200" placeholder="Issue" />
+
+        <input name="machineSystem" value={form.machineSystem} onChange={handleChange} className="input input-bordered bg-white border-red-200" placeholder="Machine/System" />
+
+        <input name="reportedBy" value={form.reportedBy} onChange={handleChange} className="input input-bordered bg-white border-red-200" placeholder="Reported By" />
+
+        <input name="actionTaken" value={form.actionTaken} onChange={handleChange} className="input input-bordered bg-white border-red-200" placeholder="Action Taken" />
+
+        <select name="status" value={form.status} onChange={handleChange} className="select select-bordered bg-white border-red-200">
           <option value="">Select Status</option>
           {statusOptions.map((s) => (
             <option key={s}>{s}</option>
           ))}
         </select>
-        <input name="task" value={form.task} onChange={handleChange} className="input input-bordered w-full bg-white border-red-200" placeholder="Task" />
-        <input name="actionRequired" value={form.actionRequired} onChange={handleChange} className="input input-bordered w-full bg-white border-red-200" placeholder="Action Required" />
-        <input name="remark" value={form.remark} onChange={handleChange} className="input input-bordered w-full bg-white border-red-200" placeholder="Remark" />
-        <input name="partNumber" value={form.partNumber} onChange={handleChange} className="input input-bordered w-full bg-white border-red-200" placeholder="Part Number" />
-        <input name="serialNumber" value={form.serialNumber} onChange={handleChange} className="input input-bordered w-full bg-white border-red-200" placeholder="Serial Number" />
-        <input name="qty" type="number" value={form.qty} onChange={handleChange} className="input input-bordered w-full bg-white border-red-200" placeholder="Quantity" />
-        <input name="additionalNote" value={form.additionalNote} onChange={handleChange} className="input input-bordered w-full bg-white border-red-200" placeholder="Additional Note" />
-        <input name="preparedBy" value={form.preparedBy} onChange={handleChange} className="input input-bordered w-full bg-white border-red-200" placeholder="Prepared By" required />
-        <input name="submittedTo" value={form.submittedTo} onChange={handleChange} className="input input-bordered w-full bg-white border-red-200" placeholder="Submitted To" />
+
+        {/* LABEL 3: FOLLOW UP REQUIRED */}
+        {/* ------------------------------------ */}
+        <h3 className="col-span-2 text-xl font-bold mt-6 bg-red-100 p-2 rounded">
+          3. Follow-up Required
+        </h3>
+
+        <input name="task" value={form.task} onChange={handleChange} className="input input-bordered bg-white border-red-200" placeholder="Task" />
+
+        <input name="actionRequired" value={form.actionRequired} onChange={handleChange} className="input input-bordered bg-white border-red-200" placeholder="Action Required" />
+
+        <input name="remark" value={form.remark} onChange={handleChange} className="input input-bordered bg-white border-red-200" placeholder="Remark" />
+
+        {/* LABEL 4: SPARE USED */}
+        {/* ------------------------------------ */}
+        <h3 className="col-span-2 text-xl font-bold mt-6 bg-red-100 p-2 rounded">
+          4. Used Any Spare?
+        </h3>
+
+        <div className="col-span-2 flex items-center gap-3">
+          <label className="font-semibold">Spare Used?</label>
+          <input type="checkbox" name="spareUsed" checked={form.spareUsed} onChange={handleChange} className="checkbox border border-black" />
+          <span>{form.spareUsed ? "YES" : "NO"}</span>
+        </div>
+
+        {form.spareUsed && (
+          <>
+            <input name="partNumber" value={form.partNumber} onChange={handleChange} className="input input-bordered bg-white border-red-200" placeholder="Part Number" />
+
+            <input name="serialNumber" value={form.serialNumber} onChange={handleChange} className="input input-bordered bg-white border-red-200" placeholder="Serial Number" />
+
+            <input name="qty" type="number" value={form.qty} onChange={handleChange} className="input input-bordered bg-white border-red-200" placeholder="Quantity" />
+          </>
+        )}
+
+        {/* LABEL 5: REMARK / ADDITIONAL NOTE */}
+        {/* ------------------------------------ */}
+        <h3 className="col-span-2 text-xl font-bold mt-6 bg-red-100 p-2 rounded">
+          5. Remarks / Additional Note
+        </h3>
+
+        <input name="additionalNote" value={form.additionalNote} onChange={handleChange} className="input input-bordered bg-white border-red-200" placeholder="Additional Note" />
+
+        <input name="preparedBy" value={form.preparedBy} onChange={handleChange} className="input input-bordered bg-white border-red-200" placeholder="Prepared By" required />
+
+        <input name="submittedTo" value={form.submittedTo} onChange={handleChange} className="input input-bordered bg-white border-red-200" placeholder="Submitted To" />
 
         <div className="col-span-2 mt-4">
-          <button type="submit" className="btn bg-sky-200 w-full rounded-xl border-red-300 shadow-xl text-gray-600">Submit Report</button>
+          <button type="submit" className="btn bg-red-100 w-full rounded-xl border-red-500 shadow-xl text-gray-800">
+            Submit Report
+          </button>
         </div>
       </form>
     </div>

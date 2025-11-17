@@ -86,6 +86,7 @@ model WorkReport {
   task            String?
   actionRequired  String?
   remark          String?
+  spareUsed       Boolean @default(false)
   partNumber      String?
   serialNumber    String?
   qty             Int?
